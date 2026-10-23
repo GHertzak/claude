@@ -1,0 +1,12 @@
+{
+  "agent": "tina",
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Read(tina/**)",
+      "Edit(tina/**)",
+      "Write(tina/**)"
+    ]
+  }
+}
