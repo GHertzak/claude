@@ -4,9 +4,9 @@ Tina is a Claude Code agent who finds flights and hotels, decides cash vs. point
 transfers, and keeps track of your loyalty programs and trips.
 
 ## Using her
-This repo's `.claude/settings.json` makes Tina the default agent, so any Claude Code
-session opened here (terminal, desktop, or claude.ai/code) talks to her directly. From
-the terminal you can also run `claude --agent tina`.
+Sessions here start as regular Claude, which hands travel questions to Tina and food
+questions to Marco (see `CLAUDE.md`). Say "ask Tina..." to be sure it goes to her. From
+the terminal you can also talk to her directly with `claude --agent tina`.
 
 The first time, she'll interview you to fill in your profile. Things to try:
 - "Find me the best way to get to Tokyo in business class in April for two."
@@ -35,3 +35,31 @@ passport numbers, card numbers, or passwords.
   tell you what to search and paste back.
 - Transfer partners and award prices change constantly. She's instructed to verify
   live before any transfer, and the reference notes are dated snapshots.
+
+---
+
+# Marco, your nutrition coach
+
+Marco owns **Macro Snap**, the photo-based macro logger, and coaches you on what you log.
+
+- **App:** https://claude.ai/artifact/JQagQcCB77r99wYQwXqVZt (a private Claude Artifact;
+  source in `macros/artifact/`, with a fallback Node web app in `macros/`)
+- **Talk to him:** `claude --agent marco` from the terminal, or ask any session here to
+  "use Marco".
+
+Things to try:
+- "Marco, how was my week?"
+- "I weighed 192.4 average this week and my lifts felt fine."
+- "What should I order for lunch at Sweetgreen?"
+- "Add a favorites button so I can re-log my usual lunch."
+
+| Path | What it is |
+|---|---|
+| `.claude/agents/marco.md` | Marco's persona, check-in workflow, and hard rules |
+| `marco/profile.md` | Your stats, goals, eating pattern, plan, and adjustment rules |
+| `marco/checkins.md` | Dated reviews, weigh-ins, and plan changes |
+| `marco/app.md` | How the app works, its data model, how to ship changes, backlog |
+| `marco/tools/summarize.py` | Turns the downloaded log into daily totals and averages |
+
+Marco won't change your goals or touch logged meals without your OK, and he'll send you
+to a doctor rather than push a deficit if something sounds off.

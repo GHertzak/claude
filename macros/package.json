@@ -1,0 +1,18 @@
+{
+  "name": "macro-snap",
+  "version": "1.0.0",
+  "description": "Snap a photo of your food, get calories, protein, carbs and fat logged.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.7.0",
+    "express": "^4.21.2"
+  }
+}
