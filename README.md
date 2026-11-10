@@ -4,9 +4,9 @@ Tina is a Claude Code agent who finds flights and hotels, decides cash vs. point
 transfers, and keeps track of your loyalty programs and trips.
 
 ## Using her
-This repo's `.claude/settings.json` makes Tina the default agent, so any Claude Code
-session opened here (terminal, desktop, or claude.ai/code) talks to her directly. From
-the terminal you can also run `claude --agent tina`.
+Sessions here start as regular Claude, which hands travel questions to Tina and food
+questions to Marco (see `CLAUDE.md`). Say "ask Tina..." to be sure it goes to her. From
+the terminal you can also talk to her directly with `claude --agent tina`.
 
 The first time, she'll interview you to fill in your profile. Things to try:
 - "Find me the best way to get to Tokyo in business class in April for two."

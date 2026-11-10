@@ -1,5 +1,4 @@
 {
-  "agent": "tina",
   "permissions": {
     "allow": [
       "WebSearch",
