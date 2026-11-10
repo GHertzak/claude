@@ -41,5 +41,8 @@ lunch out (~45 g P, ~650 kcal) + dinner at home (~60 g P, ~800 kcal).
 
 ## Preferences and notes
 - TODO: training schedule (days, type)
-- TODO: go-to lunch spots
+- TODO: go-to lunch spots (confirm which are regular)
+- Lunch spots considered: Cabo Bob's Burritos (2026-11-10: chicken bowl, light rice,
+  beans, double chicken, queso, sour cream, guac; Marco estimate ~1,150 kcal / 85 P /
+  75 C / 60 F; no published nutrition, estimate only).
 - TODO: foods he dislikes or avoids
