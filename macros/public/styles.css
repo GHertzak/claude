@@ -76,6 +76,10 @@ main {
 
 .actions { margin: 16px 0; display: flex; flex-direction: column; gap: 10px; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+[hidden] { display: none !important; }
+.prep-actions { display: flex; gap: 10px; }
+.prep-actions > * { flex: 2; }
+.prep-actions > label { flex: 1; }
 
 .btn {
   display: flex; align-items: center; justify-content: center; gap: 6px;

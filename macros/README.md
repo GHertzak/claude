@@ -22,15 +22,16 @@ estimation method. This app does the same:
 5. **Checks the math.** The model confirms calories ≈ 4P + 4C + 9F for each item, and the server
    (not the model) multiplies grams × per-100 g values, so totals are always consistent.
 6. **Asks only when it matters.** If one answer would swing calories by about 20% or more
-   (regular vs. diet soda, whole vs. skim milk), it asks. Type the answer into the note and tap
+   (regular vs. diet soda, whole vs. skim milk), it asks. Type the answer into the comment and tap
    Re-analyze.
 
 You can adjust the grams on any item before logging (+/− buttons step about 10%), delete items,
 or add one by hand. You can also skip the photo and just describe what you ate.
 
 **Tips for the best numbers:** shoot from about a 45° angle with the whole plate and a fork or
-your hand in frame, and add a short note for anything the camera can't see ("cooked in butter",
-"no dressing", "ate half").
+your hand in frame. After you take the photo, the app waits so you can add a short comment for
+anything the camera can't see ("cooked in butter", "dressing on the side", "ate half") before
+tapping **Analyze photo**. Leave it blank and tap Analyze if there's nothing to add.
 
 ## Run it locally
 

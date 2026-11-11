@@ -12,6 +12,11 @@ asks for or agrees to.
 ## How the artifact works
 - Declared capabilities: `{"sample": {"images": true}, "db": {}, "user": {}}`.
   Republishing must keep all three, or photos/saving break.
+- Snap flow: picking a photo opens the review screen and **waits**. The client can type an
+  optional comment (or tap quick-comment chips like "Ate half", "Dressing on the side"),
+  retake/change the photo, then tap **Analyze photo**. An empty comment is one tap. The
+  comment goes into the prompt as the user's note and is saved as the entry's `note`
+  (shown in italics under the meal name). Retaking keeps the typed comment.
 - Photo analysis: `sample.json(prompt, {images, modelTier: "complex", effort: "high"})`.
   The dietitian prompt is in `buildPrompt()`. The page (not the model) does the
   grams × per-100 g math in `computeItem()`.
@@ -45,6 +50,11 @@ client explicitly asks for that specific change.
 4. Commit and push the source so the repo matches what's live.
 
 ## Known issues / backlog
+- **Pending publish (2026-11-11):** "comment before analyzing" is committed in the source
+  (branch `claude/epic-archimedes-dcp1o1`) but the live artifact has not been republished
+  yet. Republish per the steps above.
+- Main view is narrower than the review view at phone width (`#mainView.wrap` shrink-wraps
+  inside the outer flex column). Cosmetic; fix with `width: 100%` on the inner `.wrap`.
 - Goals are read once at page load (`profileRef().get()`), so goal changes made from
   outside the page show only after reopening. Fix: switch to `onSnapshot`.
 - No weight or waist tracking. The client reports these in chat; Marco records them in

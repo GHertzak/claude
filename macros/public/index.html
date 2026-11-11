@@ -83,10 +83,15 @@
       <img id="preview" alt="" hidden />
 
       <label class="field">
-        <span>Note (optional, helps accuracy)</span>
-        <textarea id="note" rows="2" placeholder="e.g. cooked in olive oil, double chicken, ate half"></textarea>
+        <span id="noteLabel">Add a comment (optional, helps accuracy)</span>
+        <textarea id="note" rows="2" maxlength="300" placeholder="e.g. half portion, dressing on the side, cooked in olive oil"></textarea>
       </label>
-      <button type="button" class="btn" id="analyzeBtn">Analyze</button>
+      <div class="prep-actions" id="prepActions">
+        <label class="btn" id="retakeBtn">Retake
+          <input type="file" accept="image/*" capture="environment" id="retakeInput" hidden />
+        </label>
+        <button type="button" class="btn" id="analyzeBtn">Analyze</button>
+      </div>
 
       <div id="status" class="status" hidden></div>
 

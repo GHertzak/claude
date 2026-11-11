@@ -156,20 +156,31 @@ $("prevDay").onclick = () => { currentDate = new Date(currentDate.getTime() - 86
 $("nextDay").onclick = () => { currentDate = new Date(currentDate.getTime() + 864e5); loadDay(); };
 
 // ---------- review sheet ----------
-let draft = null; // { image, thumb, meal_name, items: [...] }
+let draft = null; // { image, thumb, meal_name, items: [...], analyzed }
 
-function openReview(image) {
-  draft = { image, thumb: null, meal_name: "", items: [] };
+// Before the first analysis, Analyze is the primary button; afterwards it's a secondary Re-analyze.
+function syncReviewButtons() {
+  const hasPhoto = !!draft?.image, first = !draft?.analyzed;
+  const b = $("analyzeBtn");
+  b.textContent = first ? (hasPhoto ? "Analyze photo" : "Analyze") : (hasPhoto ? "Re-analyze with comment" : "Re-analyze");
+  b.classList.toggle("primary", first);
+  $("retakeBtn").hidden = !hasPhoto;
+}
+
+// A photo opens the review sheet and waits for the user to add an optional comment and tap
+// Analyze photo. Nothing is sent for analysis until then.
+function openReview(image, { keepNote = false } = {}) {
+  draft = { image, thumb: null, meal_name: "", items: [], analyzed: false };
   $("preview").hidden = !image;
   if (image) $("preview").src = image;
-  $("note").value = "";
+  if (!keepNote) $("note").value = "";
+  $("noteLabel").textContent = image ? "Add a comment (optional, helps accuracy)" : "What did you eat?";
   $("result").hidden = true;
   $("status").hidden = true;
-  $("analyzeBtn").textContent = image ? "Re-analyze with note" : "Analyze";
-  $("analyzeBtn").hidden = !!image; // photo flow analyzes immediately; button appears after first result
-  $("review").showModal();
-  if (image) analyze();
-  else $("note").focus();
+  $("question").hidden = true;
+  syncReviewButtons();
+  if (!$("review").open) $("review").showModal();
+  if (!image) $("note").focus();
 }
 
 function setStatus(html, isError = false) {
@@ -185,30 +196,35 @@ async function analyze() {
     setStatus("Describe what you ate, e.g. “2 scrambled eggs, 1 slice sourdough with butter”.", true);
     return;
   }
+  const d = draft;
   $("analyzeBtn").disabled = true;
   $("logBtn").disabled = true;
+  $("retakeBtn").hidden = true;
   setStatus(`<span class="spinner"></span>Analyzing… this takes 10–30 seconds`);
   try {
-    const res = await api("/api/analyze", { method: "POST", body: JSON.stringify({ image: draft.image, note }) });
+    const res = await api("/api/analyze", { method: "POST", body: JSON.stringify({ image: d.image, note }) });
     const data = await res.json();
+    if (draft !== d) return; // photo was retaken meanwhile
+    draft.analyzed = true;
     draft.meal_name = data.meal_name;
     draft.items = data.items;
     $("status").hidden = true;
     $("question").hidden = !data.clarifying_question;
     $("question").textContent = data.clarifying_question
-      ? `❓ ${data.clarifying_question} Answer in the note above and tap Re-analyze for a better estimate.`
+      ? `❓ ${data.clarifying_question} Answer in the comment above and tap Re-analyze for a better estimate.`
       : "";
     $("aiNotes").textContent = data.notes || "";
     $("mealName").value = draft.meal_name;
     $("result").hidden = false;
     renderItems();
   } catch (err) {
-    setStatus(`Couldn't analyze: ${err.message}`, true);
+    if (draft === d) setStatus(`Couldn't analyze: ${err.message}`, true);
   } finally {
-    $("analyzeBtn").disabled = false;
-    $("analyzeBtn").hidden = false;
-    $("analyzeBtn").textContent = draft.image ? "Re-analyze with note" : "Analyze";
-    $("logBtn").disabled = false;
+    if (draft === d) {
+      $("analyzeBtn").disabled = false;
+      $("logBtn").disabled = false;
+      syncReviewButtons();
+    }
   }
 }
 
@@ -329,14 +345,17 @@ async function onPick(e) {
   const file = e.target.files?.[0];
   e.target.value = "";
   if (!file) return;
+  // Retaking from the review sheet keeps whatever comment was already typed.
+  const retake = e.target.id === "retakeInput";
   try {
-    openReview(await loadImage(file, 1568, 0.85));
+    openReview(await loadImage(file, 1568, 0.85), { keepNote: retake });
   } catch {
     alert("Couldn't read that photo. Try a JPEG or PNG.");
   }
 }
 $("cameraInput").onchange = onPick;
 $("libraryInput").onchange = onPick;
+$("retakeInput").onchange = onPick;
 $("describeBtn").onclick = () => openReview(null);
 
 // ---------- settings ----------
