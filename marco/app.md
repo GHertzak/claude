@@ -50,9 +50,8 @@ client explicitly asks for that specific change.
 4. Commit and push the source so the repo matches what's live.
 
 ## Known issues / backlog
-- **Pending publish (2026-11-11):** "comment before analyzing" is committed in the source
-  (branch `claude/epic-archimedes-dcp1o1`) but the live artifact has not been republished
-  yet. Republish per the steps above.
+- Done 2026-11-11: "comment before analyzing" shipped. Live artifact republished as
+  version 2 (id `1794421318-c987`), capabilities `sample` (images), `db`, `user` kept.
 - Main view is narrower than the review view at phone width (`#mainView.wrap` shrink-wraps
   inside the outer flex column). Cosmetic; fix with `width: 100%` on the inner `.wrap`.
 - Goals are read once at page load (`profileRef().get()`), so goal changes made from
