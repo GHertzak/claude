@@ -41,5 +41,8 @@ lunch out (~45 g P, ~650 kcal) + dinner at home (~60 g P, ~800 kcal).
 
 ## Preferences and notes
 - TODO: training schedule (days, type)
-- TODO: go-to lunch spots
+- Go-to lunch spots (from the log, Nov 2026): P. Terry's (grilled chicken sandwich, dry,
+  double chicken, ~507 kcal / 67 g P), Cabo Bob's (burrito bowl, double chicken),
+  Velvet Taco (rotisserie chicken bowl). Uses H-E-B 30 g protein shakes; snacks on
+  Kodiak oatmeal, Quest protein chips, light string cheese.
 - TODO: foods he dislikes or avoids
