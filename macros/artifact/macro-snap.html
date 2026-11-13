@@ -121,6 +121,7 @@ button { cursor: pointer; }
 .thumb svg { width: 24px; height: 24px; }
 .meal-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .meal-meta { font-size: 13px; color: var(--muted); }
+.meal-note { font-size: 12px; color: var(--muted); font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .meal-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
 .meal-kcal { font: 600 18px/1 var(--display); }
 .del { border: 0; background: transparent; color: var(--muted); font-size: 13px; padding: 4px 0; }
@@ -137,7 +138,7 @@ button { cursor: pointer; }
 .preview { width: 100%; max-height: 34vh; object-fit: cover; border-radius: var(--r); background: var(--surface-2); }
 .field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--muted); }
 .field textarea, .field input, .meal-title {
-  width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 12px; font-size: 16px;
+  width: 100%; border: 1px solid var(--line); background: var(--surface); color: var(--fg); border-radius: 12px; padding: 10px 12px; font-size: 16px;
 }
 textarea { resize: vertical; min-height: 60px; }
 .status { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px; }
@@ -148,6 +149,11 @@ textarea { resize: vertical; min-height: 60px; }
 .status .grow { flex: 1; min-width: 0; }
 .question { background: var(--warn-bg); color: var(--warn-fg); border-radius: 12px; padding: 12px 14px; font-size: 14px; }
 .meal-title { font: 700 18px/1.2 var(--display); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 6px 12px; font-size: 13px; font-weight: 500; min-height: 34px; }
+.chip:active { background: var(--surface-2); }
+.prep-actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 10px; }
+.prep-actions.solo { grid-template-columns: 1fr; }
 
 .items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .item { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
@@ -283,10 +289,21 @@ h3 { margin: 6px 0 0; font-size: 12px; text-transform: uppercase; letter-spacing
       <span style="width:52px"></span>
     </div>
     <img class="preview" id="preview" alt="Your meal photo" hidden>
-    <label class="field" for="note">Note (optional, improves accuracy)
-      <textarea id="note" rows="2" placeholder="e.g. cooked in olive oil, double chicken, ate half"></textarea>
+    <label class="field" for="note"><span id="noteLabel">Add a comment (optional, improves accuracy)</span>
+      <textarea id="note" rows="2" maxlength="300" placeholder="e.g. half portion, dressing on the side, cooked in olive oil, from Chipotle"></textarea>
     </label>
-    <button class="btn" id="analyzeBtn">Analyze</button>
+    <div class="chips" id="chips" aria-label="Quick comments">
+      <button type="button" class="chip">Ate half</button>
+      <button type="button" class="chip">Dressing on the side</button>
+      <button type="button" class="chip">Cooked in olive oil</button>
+      <button type="button" class="chip">Cooked in butter</button>
+      <button type="button" class="chip">Double protein</button>
+      <button type="button" class="chip">Diet soda</button>
+    </div>
+    <div class="prep-actions" id="prepActions">
+      <label class="btn" id="retakeBtn" for="camInput">Retake</label>
+      <button class="btn" id="analyzeBtn">Analyze</button>
+    </div>
 
     <div class="status" id="status" hidden>
       <div class="spin" id="statusSpin"></div>
@@ -517,7 +534,9 @@ window.MacroSnapFrequent = (() => {
       const time = new Date(e.t).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
       const meta = Object.assign(document.createElement("div"), { className: "meal-meta num",
         textContent: `P ${Math.round(e.totals.protein_g)} · C ${Math.round(e.totals.carbs_g)} · F ${Math.round(e.totals.fat_g)} · ${time}` });
-      mid.append(name, meta);
+      mid.append(name);
+      if (e.note) mid.append(Object.assign(document.createElement("div"), { className: "meal-note", textContent: e.note, title: e.note }));
+      mid.append(meta);
       const right = document.createElement("div");
       right.className = "meal-right";
       const kcal = Object.assign(document.createElement("div"), { className: "meal-kcal num", textContent: fmt(e.totals.calories) });
@@ -582,7 +601,7 @@ window.MacroSnapFrequent = (() => {
   }
 
   // ---------- review / analysis ----------
-  let draft = null;   // { file, previewUrl, thumb, meal_name, items }
+  let draft = null;   // { file, source, previewUrl, thumb, meal_name, items, analyzed }
   let ctl = null;
 
   async function makeThumb(file) {
@@ -593,24 +612,54 @@ window.MacroSnapFrequent = (() => {
     return c.toDataURL("image/jpeg", 0.6);
   }
 
-  function openReview(file) {
+  // Before the first analysis the Analyze button is the primary action; afterwards "Log it" is,
+  // and Analyze becomes a secondary "Re-analyze".
+  function syncReviewButtons() {
+    const hasPhoto = !!draft?.file, first = !draft?.analyzed;
+    const b = $("analyzeBtn");
+    b.textContent = first ? (hasPhoto ? "Analyze photo" : "Analyze") : (hasPhoto ? "Re-analyze with comment" : "Re-analyze");
+    b.classList.toggle("primary", first);
+    $("retakeBtn").hidden = !hasPhoto;
+    $("prepActions").classList.toggle("solo", !hasPhoto);
+  }
+
+  // A photo opens the review screen and waits: the client can add a comment (or not) and
+  // tap Analyze photo. Nothing is sent to Claude until then.
+  function openReview(file, { source = "camInput", keepNote = false } = {}) {
+    ctl?.abort();
     if (draft?.previewUrl) URL.revokeObjectURL(draft.previewUrl);
-    draft = { file, previewUrl: file ? URL.createObjectURL(file) : null, thumb: null, meal_name: "", items: [] };
+    draft = { file, source, previewUrl: file ? URL.createObjectURL(file) : null, thumb: null, meal_name: "", items: [], analyzed: false };
     $("preview").hidden = !file;
     if (file) $("preview").src = draft.previewUrl;
-    $("note").value = "";
+    if (!keepNote) $("note").value = "";
+    $("noteLabel").textContent = file ? "Add a comment (optional, improves accuracy)" : "What did you eat?";
+    $("note").placeholder = file ? "e.g. half portion, dressing on the side, cooked in olive oil, from Chipotle"
+                                 : "e.g. 2 scrambled eggs and a slice of sourdough with butter";
+    $("chips").hidden = !file;
+    $("prepActions").hidden = false;
+    $("retakeBtn").htmlFor = source;
+    $("retakeBtn").textContent = source === "libInput" ? "Change photo" : "Retake";
     $("result").hidden = true;
+    $("question").hidden = true;
     $("status").hidden = true;
-    $("analyzeBtn").textContent = file ? "Re-analyze with note" : "Analyze";
-    $("analyzeBtn").hidden = !!file;
+    $("analyzeBtn").disabled = false;
+    syncReviewButtons();
     show("reviewView");
     if (file) {
       makeThumb(file).then((t) => { if (draft && draft.file === file) draft.thumb = t; }).catch(() => {});
-      analyze();
     } else {
       $("note").focus();
     }
   }
+
+  // Quick comments: tap to add to the comment field.
+  $("chips").addEventListener("click", (e) => {
+    const chip = e.target.closest(".chip");
+    if (!chip) return;
+    const text = chip.textContent.trim(), cur = $("note").value.trim();
+    if (cur.toLowerCase().includes(text.toLowerCase())) return;
+    $("note").value = (cur ? `${cur.replace(/[,.;\s]+$/, "")}, ${text.toLowerCase()}` : text).slice(0, 300);
+  });
 
   function setStatus(text, { busy = false, error = false } = {}) {
     $("status").hidden = false;
@@ -623,13 +672,13 @@ window.MacroSnapFrequent = (() => {
   const ERRORS = {
     not_granted: "This page isn't allowed to use Claude. Allow it from the page's permissions to analyze photos.",
     sampling_disabled: "Claude isn't available for this account right now.",
-    rate_limited: "You've hit a usage limit. Wait a bit, then tap Re-analyze.",
+    rate_limited: "You've hit a usage limit. Wait a bit, then tap Analyze again.",
     session_expired: "Your Claude session expired. Sign in again, then retry.",
     image_rejected: "That photo couldn't be read. Try a different photo (JPEG or PNG).",
     images_unavailable: "Photos can't be sent from this view. Try opening the page in Safari, or tap Describe it.",
-    refused: "Claude declined this one. Try another photo or describe the meal in the note.",
-    invalid_json: "The answer came back garbled. Tap Re-analyze to try again.",
-    empty_completion: "No answer came back. Tap Re-analyze to try again.",
+    refused: "Claude declined this one. Try another photo or describe the meal in the comment.",
+    invalid_json: "The answer came back garbled. Tap Analyze to try again.",
+    empty_completion: "No answer came back. Tap Analyze to try again.",
   };
 
   function buildPrompt(note, hasImage) {
@@ -643,7 +692,7 @@ Method:
 5. Sanity check. Per-100 g calories should be close to 4 x protein + 4 x carbs + 9 x fat (alcohol 7 kcal/g; very high-fiber foods slightly lower). Fix values that do not reconcile.
 6. Bias. Give the single most likely estimate, not the lowest plausible one. Photos hide oil and understate depth, so do not shave portions.
 
-The user's note overrides what the photo suggests ("ate half", "double chicken", "diet soda", "cooked in butter").${hasImage ? "" : " There is no photo: estimate from the note alone, using typical portions for anything not specified."}
+The user's note overrides what the photo suggests ("ate half", "double chicken", "diet soda", "cooked in butter", "dressing on the side, not eaten"). If the note names a restaurant, chain or brand, use its published nutrition for the matching menu item.${hasImage ? "" : " There is no photo: estimate from the note alone, using typical portions for anything not specified."}
 Only ask a clarifying question when one answer would change total calories by about 20% or more (regular vs diet soda, whole vs skim milk, full vs half portion). Otherwise use an empty string.
 If there is no food or drink, return an empty items list and say so in meal_name.
 
@@ -678,29 +727,36 @@ confidence is "high", "medium" or "low". Use plain short English names.`;
     const note = $("note").value.trim();
     if (!draft.file && !note) { setStatus("Describe what you ate, e.g. \"2 scrambled eggs and a slice of sourdough with butter\".", { error: true }); return; }
     if (!sample) { setStatus("Claude isn't available on this page right now. Open it from claude.ai while signed in.", { error: true }); return; }
-    ctl = new AbortController();
-    $("analyzeBtn").disabled = true; $("logBtn").disabled = true;
+    const d = draft, c = new AbortController();
+    ctl = c;
+    $("note").blur();
+    $("analyzeBtn").disabled = true; $("logBtn").disabled = true; $("retakeBtn").hidden = true;
     setStatus("Looking at your meal… this usually takes 20–60 seconds.", { busy: true });
     try {
-      const opts = { modelTier: "complex", effort: "high", signal: ctl.signal };
-      if (draft.file) opts.images = [draft.file];
-      const res = cleanResult(await sample.json(buildPrompt(note, !!draft.file), opts));
-      draft.meal_name = res.meal_name;
-      draft.items = res.items;
+      const opts = { modelTier: "complex", effort: "high", signal: c.signal };
+      if (d.file) opts.images = [d.file];
+      const res = cleanResult(await sample.json(buildPrompt(note, !!d.file), opts));
+      if (draft !== d) return;   // the photo was retaken or the review closed meanwhile
+      d.meal_name = res.meal_name;
+      d.items = res.items;
+      d.analyzed = true;
       $("status").hidden = true;
       $("question").hidden = !res.clarifying_question;
-      $("question").textContent = res.clarifying_question ? `${res.clarifying_question} Answer in the note above and tap Re-analyze.` : "";
+      $("question").textContent = res.clarifying_question ? `${res.clarifying_question} Answer in the comment above and tap Re-analyze.` : "";
       $("aiNotes").textContent = res.notes;
       $("mealName").value = res.meal_name;
       $("result").hidden = false;
       renderItems();
     } catch (e) {
+      if (draft !== d) return;
       if (e?.code === "cancelled") { $("status").hidden = true; }
-      else setStatus(ERRORS[e?.code] || "Something went wrong reaching Claude. Tap Re-analyze to try again.", { error: true });
+      else setStatus(ERRORS[e?.code] || "Something went wrong reaching Claude. Tap Analyze to try again.", { error: true });
     } finally {
-      ctl = null;
-      $("analyzeBtn").disabled = false; $("analyzeBtn").hidden = false; $("logBtn").disabled = false;
-      $("analyzeBtn").textContent = draft?.file ? "Re-analyze with note" : "Analyze";
+      if (ctl === c) ctl = null;
+      if (draft === d) {
+        $("analyzeBtn").disabled = false; $("logBtn").disabled = false;
+        syncReviewButtons();
+      }
     }
   }
 
@@ -788,7 +844,10 @@ confidence is "high", "medium" or "low". Use plain short English names.`;
   function onPick(e) {
     const file = e.target.files?.[0];
     e.target.value = "";
-    if (file) openReview(file);
+    if (!file) return;
+    // Retaking from the review screen keeps whatever comment was already typed.
+    const retake = !$("reviewView").hidden && !!draft?.file;
+    openReview(file, { source: e.target.id, keepNote: retake });
   }
   $("camInput").onchange = onPick;
   $("libInput").onchange = onPick;
@@ -914,15 +973,19 @@ confidence is "high", "medium" or "low". Use plain short English names.`;
   }
 
   function openFromTemplate(f, servings) {
+    ctl?.abort();
     if (draft?.previewUrl) URL.revokeObjectURL(draft.previewUrl);
-    draft = { file: null, previewUrl: null, thumb: f.thumb, meal_name: F.servingsLabel(servings) + f.meal_name,
-      items: F.scaleItems(f.items, servings).map((it) => ({ ...it, portion: "", confidence: "high" })) };
+    draft = { file: null, source: null, previewUrl: null, thumb: f.thumb, meal_name: F.servingsLabel(servings) + f.meal_name,
+      items: F.scaleItems(f.items, servings).map((it) => ({ ...it, portion: "", confidence: "high" })), analyzed: true };
     $("preview").hidden = true;
     $("note").value = "";
+    $("noteLabel").textContent = "Add a comment (optional)";
+    $("note").placeholder = "e.g. less rice today";
+    $("chips").hidden = true;
+    $("prepActions").hidden = true;   // nothing to analyze: these numbers are already yours
     $("status").hidden = true;
     $("question").hidden = true;
     $("aiNotes").textContent = "From your Quick add list. Change grams or remove items, then log it.";
-    $("analyzeBtn").hidden = true;
     $("mealName").value = draft.meal_name;
     $("result").hidden = false;
     show("reviewView");
@@ -991,3 +1054,4 @@ confidence is "high", "medium" or "low". Use plain short English names.`;
   });
 })();
 </script>
+

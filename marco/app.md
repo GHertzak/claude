@@ -23,7 +23,7 @@ asks for or agrees to.
   - **Don't change these paths or shapes** without migrating existing data, or the
     client's history disappears from the app.
 
-## Quick add (frequent items), built 2026-11-13
+## Quick add (frequent items), live since 2026-11-13 (artifact version 3)
 - "Quick add" button on the main view opens a bottom sheet of foods logged **at least twice in
   the last 30 days** (max 12; most logged first, then most recent). A food not logged in 30 days
   drops off; it returns once it is logged twice within a 30-day window again.
@@ -53,6 +53,11 @@ Writing: only goals, and only after the client says yes. Pin every write with
 client explicitly asks for that specific change.
 
 ## Shipping a change to the artifact
+Before publishing, compare the live page (`Artifact` `read` with `path: "index.html"`) with the
+repo source. On 2026-11-13 the live page had changes that were never committed (comment chips,
+Retake/Change photo, analyze only on tap, notes shown on meals). They were merged into the source
+before the Quick add publish, so the repo matched live again.
+
 1. Edit `macros/artifact/macro-snap.html`.
 2. Check the page script parses (extract the `<script>` and run `node --check`), and take
    one phone-width screenshot if anything visual changed.
@@ -72,5 +77,3 @@ client explicitly asks for that specific change.
 - Quick add follow-ups to consider: let him pin or hide items (needs a small per-user
   document), and a "protein left today" hint inside the sheet.
 - Ideas the client may want: a "protein left today" hint, weekly averages view.
-- Quick add source is on branch `claude/relaxed-albattani-76yx39` and is **not published yet**
-  (as of 2026-11-13); publish after the client OKs it, then update this line.
