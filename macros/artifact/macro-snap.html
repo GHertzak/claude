@@ -177,6 +177,36 @@ details summary { font-size: 12px; color: var(--muted); cursor: pointer; }
 .settings { display: flex; flex-direction: column; gap: 12px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 h3 { margin: 6px 0 0; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+/* Quick add (frequent items) */
+.btn.wide { grid-column: 1 / -1; }
+.btn .count { font-weight: 500; color: var(--muted); }
+.sheet-back { position: fixed; inset: 0; background: rgb(0 0 0 / .42); z-index: 20; display: flex; align-items: flex-end; justify-content: center; }
+.sheet {
+  width: 100%; max-width: 560px; max-height: 82vh; overflow-y: auto; background: var(--bg);
+  border-radius: 18px 18px 0 0; padding: 14px max(16px, env(safe-area-inset-left, 0px)) max(20px, env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; gap: 10px; box-shadow: 0 -8px 30px rgb(0 0 0 / .18);
+}
+.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sheet-head h2 { font: 800 20px/1 var(--display); margin: 0; }
+.freq { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.fq { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px; display: flex; flex-direction: column; gap: 10px; }
+.fq-row { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 10px; align-items: center; }
+.fq-row .thumb { width: 44px; height: 44px; }
+.fq-main { min-width: 0; border: 0; background: transparent; text-align: left; padding: 0; }
+.fq-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fq-meta { font-size: 13px; color: var(--muted); }
+.addbtn { min-width: 64px; min-height: 44px; border-radius: 12px; border: 0; background: var(--accent); color: var(--accent-ink); font-weight: 700; padding: 0 12px; }
+.addbtn:disabled { opacity: .5; }
+.fq-adjust { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); padding-top: 10px; }
+.fq-adjust .grams span { min-width: 74px; text-align: center; font-weight: 600; }
+.fq-adjust .item-macros { flex-basis: 100%; }
+.toast {
+  position: fixed; left: 50%; bottom: max(18px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 30;
+  width: min(520px, calc(100% - 32px)); background: var(--fg); color: var(--bg); border-radius: 12px;
+  padding: 10px 10px 10px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 6px 24px rgb(0 0 0 / .25);
+}
+.toast .grow { flex: 1; min-width: 0; font-size: 14px; }
+.toast button { border: 0; background: transparent; color: inherit; font-weight: 700; text-decoration: underline; padding: 8px; }
 </style>
 
 <div class="wrap">
@@ -218,6 +248,10 @@ h3 { margin: 6px 0 0; font-size: 12px; text-transform: uppercase; letter-spacing
       <label class="btn" for="libInput">Choose photo</label>
       <input class="file-input" type="file" accept="image/*" id="libInput">
       <button class="btn" id="describeBtn">Describe it</button>
+      <button class="btn wide" id="quickBtn" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.7"/><path d="M20 4v4.7h-4.7"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 15.3"/><path d="M4 20v-4.7h4.7"/></svg>
+        Quick add <span class="count" id="quickCount"></span>
+      </button>
     </div>
 
     <h2 class="sec-title">Meals</h2>
@@ -227,6 +261,19 @@ h3 { margin: 6px 0 0; font-size: 12px; text-transform: uppercase; letter-spacing
       Snap your plate or describe what you ate. Each meal shows calories, protein, carbs and fat here.
     </div>
   </section>
+
+  <!-- QUICK ADD SHEET -->
+  <div class="sheet-back" id="quickSheet" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="quickTitle">
+      <div class="sheet-head">
+        <h2 id="quickTitle">Quick add</h2>
+        <button class="textbtn" id="closeQuick">Done</button>
+      </div>
+      <p class="muted small" style="margin:0">Foods you've logged at least twice in the last 30 days. Tap Add to log one serving to <span id="quickDay">today</span>, or tap a food to change the portion.</p>
+      <ul class="freq" id="freqList"></ul>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" hidden><div class="grow" id="toastText"></div><button id="toastUndo">Undo</button></div>
 
   <!-- REVIEW VIEW -->
   <section id="reviewView" class="review" hidden>
@@ -276,6 +323,110 @@ h3 { margin: 6px 0 0; font-size: 12px; text-transform: uppercase; letter-spacing
 </div>
 
 <script>
+/* Frequent items: pure logic, no DOM, so it can be tested in Node (macros/artifact/test-frequent.cjs).
+   Groups logged entries that are the same food, even when the photo estimate named them a little
+   differently ("H-E-B 30g Protein Chocolate Nutritional Shake" vs "H-E-B 30g protein chocolate shake"). */
+window.MacroSnapFrequent = (() => {
+  const WINDOW_DAYS = 30;   // only logs from the last 30 days count; older foods drop off the list
+  const MIN_REPEATS = 2;    // logged at least twice in that window to qualify
+  const MAX_ITEMS = 12;     // pop-up shows at most this many
+  const SIMILAR = 0.6;      // Jaccard similarity of name tokens needed to call two entries the same food
+  const DENSITY_RATIO = 1.5; // kcal-per-gram must be within 1.5x either way (keeps fried vs grilled apart)
+
+  const STOP = new Set(["a", "an", "and", "of", "the", "with", "w", "in", "on", "for", "to", "style", "approx", "about", "plus"]);
+  // Quantity and size words describe a portion, not the food, so "3 shots" and "shot" still match.
+  const QTY = new Set(["one", "two", "three", "four", "five", "six", "half", "quarter", "shot", "piece", "packet",
+    "bottle", "slice", "cup", "serving", "oz", "g", "gram", "ml", "pint", "can", "glass", "tbsp", "tsp",
+    "large", "small", "medium", "regular", "portion", "x"]);
+
+  function singular(w) { return w.length > 3 && w.endsWith("s") && !w.endsWith("ss") ? w.slice(0, -1) : w; }
+  function tokens(s) {
+    const out = new Set();
+    String(s || "").toLowerCase().replace(/['’]/g, "").replace(/([a-z0-9])-(?=[a-z0-9])/g, "$1")
+      .split(/[^a-z0-9]+/).forEach((w) => {
+        if (!w || /^\d+$/.test(w)) return;
+        w = singular(w);
+        if (!STOP.has(w) && !QTY.has(w)) out.add(w);
+      });
+    return out;
+  }
+  function signature(e) {
+    const s = tokens(e.meal_name);
+    for (const it of e.items || []) for (const w of tokens(it.name)) s.add(w);
+    return s;
+  }
+  function jaccard(a, b) {
+    if (!a.size || !b.size) return 0;
+    let n = 0; for (const w of a) if (b.has(w)) n++;
+    return n / (a.size + b.size - n);
+  }
+  function density(e) {
+    const g = (e.items || []).reduce((s, it) => s + (Number(it.grams) || 0), 0);
+    return g > 0 ? (Number(e.totals?.calories) || 0) / g : null;
+  }
+  function closeDensity(a, b) {
+    if (a == null || b == null) return true;
+    if (a === 0 || b === 0) return a === b;
+    const r = a / b; return r <= DENSITY_RATIO && r >= 1 / DENSITY_RATIO;
+  }
+  function addDays(iso, n) {
+    const [y, m, d] = iso.split("-").map(Number);
+    const dt = new Date(Date.UTC(y, m - 1, d + n));
+    return dt.toISOString().slice(0, 10);
+  }
+  function cutoffDate(todayIso) { return addDays(todayIso, -(WINDOW_DAYS - 1)); }
+
+  // days: { "YYYY-MM-DD": [entry, ...] }. todayIso: the viewer's local date.
+  function compute(days, todayIso) {
+    const from = cutoffDate(todayIso);
+    const all = [];
+    for (const [date, entries] of Object.entries(days || {})) {
+      if (date < from || date > todayIso || !Array.isArray(entries)) continue;
+      for (const e of entries) {
+        if (!e || !Array.isArray(e.items) || !e.items.length || !e.totals) continue;
+        all.push({ e, date, sig: signature(e), dens: density(e) });
+      }
+    }
+    all.sort((a, b) => (b.date + (b.e.t || "")).localeCompare(a.date + (a.e.t || "")));   // newest first
+    // Single-linkage grouping (union-find): two logs are the same food when their names are similar
+    // enough and their calorie density is close. Order-independent, so A~B and B~C puts A, B, C together.
+    const parent = all.map((_, i) => i);
+    const find = (i) => (parent[i] === i ? i : (parent[i] = find(parent[i])));
+    for (let i = 0; i < all.length; i++) {
+      for (let j = i + 1; j < all.length; j++) {
+        if (find(i) === find(j)) continue;
+        if (closeDensity(all[i].dens, all[j].dens) && jaccard(all[i].sig, all[j].sig) >= SIMILAR) parent[find(j)] = find(i);
+      }
+    }
+    const byRoot = new Map();
+    all.forEach((x, i) => { const r = find(i); if (!byRoot.has(r)) byRoot.set(r, { members: [] }); byRoot.get(r).members.push(x); });
+    const groups = [...byRoot.values()];   // members stay newest first
+    return groups.filter((g) => g.members.length >= MIN_REPEATS).map((g) => {
+      // Template = the typical portion: the median-calorie log (newest wins ties).
+      const byKcal = g.members.slice().sort((a, b) => a.e.totals.calories - b.e.totals.calories);
+      const mid = byKcal[Math.floor((byKcal.length - 1) / 2)].e.totals.calories;
+      const tpl = g.members.find((m) => m.e.totals.calories === mid).e;
+      const withThumb = g.members.find((m) => m.e.thumb);
+      return {
+        key: [...g.members[0].sig].sort().join(" "),
+        meal_name: tpl.meal_name, items: tpl.items, totals: tpl.totals,
+        thumb: tpl.thumb || withThumb?.e.thumb || null,
+        count: g.members.length, last: g.members[0].date,
+      };
+    }).sort((a, b) => b.count - a.count || b.last.localeCompare(a.last)).slice(0, MAX_ITEMS);
+  }
+
+  // Scale a template's items by a servings multiplier; per-100 g values stay the same.
+  function scaleItems(items, servings) {
+    return items.map((it) => ({ name: it.name, grams: Math.round((Number(it.grams) || 0) * servings),
+      per_100g: { ...it.per_100g } }));
+  }
+  function servingsLabel(s) { return s === 1 ? "" : `${String(s).replace(/\.5$/, "½").replace(/^0½$/, "½")} × `; }
+
+  return { compute, scaleItems, servingsLabel, tokens, signature, cutoffDate, WINDOW_DAYS, MIN_REPEATS };
+})();
+</script>
+<script>
 (() => {
   const $ = (id) => document.getElementById(id);
   const DEFAULT_GOALS = { calories: 2200, protein_g: 160, carbs_g: 220, fat_g: 70 };
@@ -312,6 +463,9 @@ h3 { margin: 6px 0 0; font-size: 12px; text-transform: uppercase; letter-spacing
   let dayEntries = [];
   let unsubDay = null, loadTimer = null;
   let writeChain = Promise.resolve();
+  const F = window.MacroSnapFrequent;
+  let history = {};        // date -> entries, for the last 30 days (feeds Quick add)
+  let frequent = [];
 
   const profileRef = () => db.doc(`data/users/${uid}/profile`);
   const dayRef = (date) => profileRef().collection("days").doc(date);
@@ -387,6 +541,7 @@ h3 { margin: 6px 0 0; font-size: 12px; text-transform: uppercase; letter-spacing
   function subscribeDay() {
     if (unsubDay) { unsubDay(); unsubDay = null; }
     clearTimeout(loadTimer);
+    $("toast").hidden = true;   // an Undo belongs to the day it was shown on
     dayEntries = [];
     renderDay();
     if (!db || !uid) return;
@@ -396,7 +551,9 @@ h3 { margin: 6px 0 0; font-size: 12px; text-transform: uppercase; letter-spacing
       if (!snap.metadata.fromCache) { clearTimeout(loadTimer); showBanner(""); }
       const d = snap.exists ? snap.data() : null;
       dayEntries = Array.isArray(d?.entries) ? d.entries : [];
+      history[date] = dayEntries;
       renderDay();
+      refreshFrequent();
     }, (err) => {
       clearTimeout(loadTimer);
       showBanner(err.code === "revoked" ? "Saving is no longer available on this page." : "Couldn't load your log. Reopen the page to try again.");
@@ -419,6 +576,7 @@ h3 { margin: 6px 0 0; font-size: 12px; text-transform: uppercase; letter-spacing
 
   // ---------- views ----------
   function show(view) {
+    closeQuick();
     for (const v of ["mainView", "reviewView", "goalsView"]) $(v).hidden = v !== view;
     window.scrollTo(0, 0);
   }
@@ -621,16 +779,7 @@ confidence is "high", "medium" or "low". Use plain short English names.`;
   $("logBtn").onclick = async () => {
     if (!draft.items.length) { setStatus("There's nothing to log. Add an item or re-analyze.", { error: true }); return; }
     $("logBtn").disabled = true;
-    const items = draft.items.map((it) => ({ name: it.name || "Food", grams: Math.round(num(it.grams)), per_100g: it.per_100g, ...computeItem(it) }));
-    const entry = {
-      id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
-      t: new Date().toISOString(),
-      meal_name: ($("mealName").value || draft.meal_name || "Meal").slice(0, 120),
-      note: $("note").value.slice(0, 300),
-      thumb: draft.thumb,
-      items,
-      totals: sumTotals(items),
-    };
+    const entry = entryFromItems(draft.items, $("mealName").value || draft.meal_name, draft.thumb, $("note").value);
     const ok = await saveDay([...dayEntries, entry]);
     $("logBtn").disabled = false;
     if (ok) show("mainView");
@@ -644,6 +793,153 @@ confidence is "high", "medium" or "low". Use plain short English names.`;
   $("camInput").onchange = onPick;
   $("libInput").onchange = onPick;
   $("describeBtn").onclick = () => openReview(null);
+
+  // ---------- quick add (frequent items) ----------
+  function loadHistory() {
+    const from = F.cutoffDate(isoDate(new Date()));
+    profileRef().collection("days").where("date", ">=", from).get().then((qs) => {
+      const fresh = {};
+      for (const doc of qs.docs) {
+        const d = doc.data();
+        if (d && typeof d.date === "string" && Array.isArray(d.entries)) fresh[d.date] = d.entries;
+      }
+      // The live day subscription is newer than this one-time read; keep its copy.
+      const live = isoDate(currentDate);
+      if (history[live]) fresh[live] = history[live];
+      history = fresh;
+      refreshFrequent();
+    }).catch(() => {});   // Quick add just stays hidden; logging still works
+  }
+
+  function refreshFrequent() {
+    frequent = F.compute(history, isoDate(new Date()));
+    $("quickBtn").hidden = frequent.length === 0;
+    $("quickCount").textContent = frequent.length ? `· ${frequent.length}` : "";
+    if (!$("quickSheet").hidden) renderQuick();
+  }
+
+  const openRows = new Map();   // key -> servings, for rows the viewer expanded
+  function renderQuick() {
+    $("quickDay").textContent = dayLabel(currentDate) === "Today" ? "today" : dayLabel(currentDate);
+    const ul = $("freqList");
+    ul.textContent = "";
+    if (!frequent.length) {
+      ul.innerHTML = '<li class="empty">Nothing yet. Foods show up here once you log them twice within 30 days.</li>';
+      return;
+    }
+    for (const f of frequent) {
+      const li = document.createElement("li");
+      li.className = "fq";
+      const row = document.createElement("div");
+      row.className = "fq-row";
+      const thumb = f.thumb ? Object.assign(document.createElement("img"), { src: f.thumb, alt: "", className: "thumb" })
+                            : Object.assign(document.createElement("div"), { className: "thumb", innerHTML: PLATE_ICON });
+      const main = document.createElement("button");
+      main.className = "fq-main";
+      main.setAttribute("aria-expanded", openRows.has(f.key) ? "true" : "false");
+      main.append(
+        Object.assign(document.createElement("div"), { className: "fq-name", textContent: f.meal_name }),
+        Object.assign(document.createElement("div"), { className: "fq-meta num",
+          textContent: `${fmt(f.totals.calories)} kcal · P ${Math.round(f.totals.protein_g)} · ${f.count}× in 30 days` }));
+      const add = Object.assign(document.createElement("button"), { className: "addbtn", textContent: "Add" });
+      add.setAttribute("aria-label", `Add ${f.meal_name}`);
+      row.append(thumb, main, add);
+      li.append(row);
+
+      let adj = null;
+      const servings = () => openRows.get(f.key) ?? 1;
+      if (openRows.has(f.key)) {
+        adj = document.createElement("div");
+        adj.className = "fq-adjust";
+        adj.innerHTML = `<div class="grams"><button class="step" data-d="-1" aria-label="Fewer servings">−</button><span class="num"></span><button class="step" data-d="1" aria-label="More servings">+</button></div>
+          <button class="textbtn">Edit items</button><div class="item-macros num"></div>`;
+        const lbl = adj.querySelector(".grams span"), mac = adj.querySelector(".item-macros");
+        const paint = () => {
+          const s = servings();
+          lbl.textContent = `${s === 0.5 ? "½" : String(s).replace(".5", "½")} serving${s <= 1 ? "" : "s"}`;
+          const t = sumTotals(F.scaleItems(f.items, s).map(computeItem));
+          mac.innerHTML = `<b>${fmt(t.calories)}</b> kcal · P ${Math.round(t.protein_g)} · C ${Math.round(t.carbs_g)} · F ${Math.round(t.fat_g)}`;
+          add.textContent = s === 1 ? "Add" : `Add ${lbl.textContent.split(" ")[0]}`;
+        };
+        adj.querySelectorAll(".step").forEach((b) => b.onclick = () => {
+          openRows.set(f.key, Math.min(10, Math.max(0.5, servings() + 0.5 * Number(b.dataset.d))));
+          paint();
+        });
+        adj.querySelector(".textbtn").onclick = () => openFromTemplate(f, servings());
+        paint();
+        li.append(adj);
+      }
+      main.onclick = () => {
+        if (openRows.has(f.key)) openRows.delete(f.key); else openRows.set(f.key, 1);
+        renderQuick();
+      };
+      add.onclick = async () => {
+        add.disabled = true;
+        await quickLog(f, servings());
+        openRows.delete(f.key);
+        add.disabled = false;
+      };
+      ul.append(li);
+    }
+  }
+
+  function entryFromItems(rawItems, meal_name, thumb, note) {
+    const items = rawItems.map((it) => ({ name: it.name || "Food", grams: Math.round(num(it.grams)), per_100g: it.per_100g, ...computeItem(it) }));
+    return {
+      id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+      t: new Date().toISOString(),
+      meal_name: (meal_name || "Meal").slice(0, 120),
+      note: (note || "").slice(0, 300),
+      thumb: thumb || null,
+      items,
+      totals: sumTotals(items),
+    };
+  }
+
+  let toastTimer = null;
+  function toast(text, undo) {
+    clearTimeout(toastTimer);
+    $("toastText").textContent = text;
+    $("toastUndo").hidden = !undo;
+    $("toastUndo").onclick = () => { $("toast").hidden = true; undo?.(); };
+    $("toast").hidden = false;
+    toastTimer = setTimeout(() => { $("toast").hidden = true; }, 6000);
+  }
+
+  async function quickLog(f, servings) {
+    const entry = entryFromItems(F.scaleItems(f.items, servings), F.servingsLabel(servings) + f.meal_name, f.thumb, "");
+    const ok = await saveDay([...dayEntries, entry]);
+    if (ok) toast(`Logged ${entry.meal_name} · ${fmt(entry.totals.calories)} kcal`,
+      () => saveDay(dayEntries.filter((x) => x.id !== entry.id)));
+  }
+
+  function openFromTemplate(f, servings) {
+    if (draft?.previewUrl) URL.revokeObjectURL(draft.previewUrl);
+    draft = { file: null, previewUrl: null, thumb: f.thumb, meal_name: F.servingsLabel(servings) + f.meal_name,
+      items: F.scaleItems(f.items, servings).map((it) => ({ ...it, portion: "", confidence: "high" })) };
+    $("preview").hidden = true;
+    $("note").value = "";
+    $("status").hidden = true;
+    $("question").hidden = true;
+    $("aiNotes").textContent = "From your Quick add list. Change grams or remove items, then log it.";
+    $("analyzeBtn").hidden = true;
+    $("mealName").value = draft.meal_name;
+    $("result").hidden = false;
+    show("reviewView");
+    renderItems();
+  }
+
+  function openQuick() {
+    openRows.clear();
+    renderQuick();
+    $("quickSheet").hidden = false;
+    $("closeQuick").focus();
+  }
+  function closeQuick() { $("quickSheet").hidden = true; }
+  $("quickBtn").onclick = openQuick;
+  $("closeQuick").onclick = closeQuick;
+  $("quickSheet").onclick = (e) => { if (e.target === $("quickSheet")) closeQuick(); };
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("quickSheet").hidden) closeQuick(); });
 
   // ---------- goals ----------
   function goalMath() {
@@ -691,6 +987,7 @@ confidence is "high", "medium" or "low". Use plain short English names.`;
       if (g) { goals = { ...DEFAULT_GOALS, ...g }; renderDay(); }
     }).catch(() => {});
     subscribeDay();
+    loadHistory();
   });
 })();
 </script>

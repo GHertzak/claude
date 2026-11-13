@@ -23,6 +23,23 @@ asks for or agrees to.
   - **Don't change these paths or shapes** without migrating existing data, or the
     client's history disappears from the app.
 
+## Quick add (frequent items), built 2026-11-13
+- "Quick add" button on the main view opens a bottom sheet of foods logged **at least twice in
+  the last 30 days** (max 12; most logged first, then most recent). A food not logged in 30 days
+  drops off; it returns once it is logged twice within a 30-day window again.
+- **Add** logs one serving to the day being viewed in one tap (reuses the stored items, per-100 g
+  values and thumbnail; no photo, no model call), with a 6-second Undo toast. Tapping a food
+  opens a servings stepper (½ to 10, steps of ½; scales every item's grams) and **Edit items**,
+  which opens the normal review screen prefilled so grams can be changed per item.
+- Matching: name tokens from the meal name plus item names (lowercased, quantity/size/stop words
+  and bare numbers dropped, crude singular), Jaccard ≥ 0.6, single-linkage, and calorie density
+  (kcal/g) within 1.5× so grilled vs fried stay apart. The template is the median-calorie log.
+- Data: no new storage. On load the page runs one query on `days` with `date >= today − 29`; the
+  live day subscription keeps today current. Entries logged by Quick add have the same shape
+  as any other entry; the meal name gets a "2 × " prefix when servings ≠ 1.
+- Logic lives in its own `<script>` (`window.MacroSnapFrequent`); tests:
+  `node macros/artifact/test-frequent.cjs`.
+
 ## Reading the client's data
 Use `ArtifactData` with the URL above. `me` resolves to the client's id.
 1. `get` collection `data/users/me`, doc `profile` (goals).
@@ -52,5 +69,8 @@ client explicitly asks for that specific change.
   `data/users/<id>/profile/weights/<YYYY-MM-DD>`.
 - Logging a meal to a past date uses the date shown in the header; there's no way to
   move a meal between days.
-- Ideas the client may want: favorite/repeat meals (his lunches repeat), a "protein left
-  today" hint, weekly averages view.
+- Quick add follow-ups to consider: let him pin or hide items (needs a small per-user
+  document), and a "protein left today" hint inside the sheet.
+- Ideas the client may want: a "protein left today" hint, weekly averages view.
+- Quick add source is on branch `claude/relaxed-albattani-76yx39` and is **not published yet**
+  (as of 2026-11-13); publish after the client OKs it, then update this line.
