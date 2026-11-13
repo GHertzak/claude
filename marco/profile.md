@@ -41,5 +41,8 @@ lunch out (~45 g P, ~650 kcal) + dinner at home (~60 g P, ~800 kcal).
 
 ## Preferences and notes
 - TODO: training schedule (days, type)
-- TODO: go-to lunch spots
+- Go-to lunch spots (from the log, Nov 2026): Cabo Bob's, Velvet Taco, P. Terry's (orders
+  grilled chicken dry with double chicken: ~507 kcal / 67 g P).
+- Frozen/prepared meals: used MegaFit Meals before and liked them; asked 2026-11-13 for
+  frozen meal options. Target per meal: ~400–550 kcal, 40 g+ protein (dinner slot).
 - TODO: foods he dislikes or avoids
