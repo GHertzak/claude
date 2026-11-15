@@ -21,7 +21,8 @@ Newest first. One entry per review: date, what the log showed, what the client r
   mostly the expected week-1 water/glycogen drop. Not a rate to extrapolate.
 - Scale body comp (BIA, baseline only): 22.2% body fat, 77.0 lb skeletal muscle mass, BMI
   26.1. Bioimpedance swings with hydration; use the trend, not the absolute number.
-- Still waiting on: lifts, hunger/energy. Waist due ~Nov 24.
+- Client: 5 workouts this week (weights), lifts holding, energy good. Hunger not reported.
+  Waist due ~Nov 24. Next review ~Nov 22.
 
 ## 2026-11-10: Start
 - Plan set: 1,800 kcal / 145 g protein / 170 g carbs / 60 g fat (goals updated in the app).

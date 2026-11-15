@@ -42,7 +42,7 @@ lunch out (~45 g P, ~650 kcal) + dinner (~70 g P, ~950 kcal). On a latte day, ta
   button every two weeks.
 
 ## Preferences and notes
-- TODO: training schedule (days, type)
+- Training: weight workouts, 5×/week in week 1 (Nov 9–15). Which days and the split: TODO.
 - Weighs in on a Garmin smart scale (weight, body fat %, skeletal muscle mass) → data is in
   Garmin Connect. No connector yet; athletedata (third-party, covers Garmin + Apple Health)
   suggested 2026-11-15. Until then he sends screenshots.
