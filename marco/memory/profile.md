@@ -43,9 +43,12 @@ lunch out (~45 g P, ~650 kcal) + dinner (~70 g P, ~950 kcal). On a latte day, ta
 
 ## Preferences and notes
 - Training: weight workouts, 5×/week in week 1 (Nov 9–15). Which days and the split: TODO.
-- Weighs in on a Garmin smart scale (weight, body fat %, skeletal muscle mass) → data is in
-  Garmin Connect. No connector yet; athletedata (third-party, covers Garmin + Apple Health)
-  suggested 2026-11-15. Until then he sends screenshots.
+- Scales: Garmin smart scale through Nov 15 (data in Garmin Connect). Switched to a
+  **Withings Body Scan** starting week of 2026-11-16 (data in Withings Health Mate). Don't
+  compare weight or body comp across the two scales; week 2 is a new baseline. Garmin
+  baseline 11/9–14: avg ~192.7 lb, 22.2% BF, 77.0 lb skeletal muscle (BIA).
+  No Withings connector in the directory; athletedata (third-party) may cover it, unverified.
+  Until a connector exists he sends screenshots or numbers.
 - Lives in Crestview, 78757 (north-central Austin, Burnet Rd / Anderson Ln). Eats out with his
   family on weekends (dinner). Weekend picks suggested 2026-11-15: Tex-Mex fajitas on
   Anderson Ln, Torchy's (5119 Burnet), Hat Creek (5400 Burnet), Rudy's turkey.
