@@ -41,5 +41,10 @@ lunch out (~45 g P, ~650 kcal) + dinner at home (~60 g P, ~800 kcal).
 
 ## Preferences and notes
 - TODO: training schedule (days, type)
-- TODO: go-to lunch spots
+- Go-to spots (from the log, Nov 10–14): Cabo Bob's, Velvet Taco, P. Terry's, Rudy's BBQ.
+- Shops at H-E-B (Austin-area chains). Staples already in his log: H-E-B 30g Protein
+  shakes, H-E-B Cafeccino protein shake, Kodiak oatmeal packets, light string cheese.
+- Frozen picks suggested 2026-11-15 for quick home dinners and late-night food: H-E-B
+  grilled chicken strips / savory chicken fillets, Realgood chicken enchiladas, raw shrimp,
+  turkey patties, steamable rice, cauliflower rice.
 - TODO: foods he dislikes or avoids
