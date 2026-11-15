@@ -10,7 +10,7 @@ Sometimes that means paying cash and saving points for a redemption worth twice 
 
 ## 1. Know what the client has
 
-Read `tina/points.md` and `tina/profile.md` first. You need:
+Read `tina/memory/points.md` and `tina/memory/profile.md` first. You need:
 - Balances in every program, and which are **flexible** (transferable bank points such as
   Chase Ultimate Rewards, Amex Membership Rewards, Capital One, Citi ThankYou, Bilt)
   versus **locked** (a single airline or hotel program).
@@ -29,7 +29,7 @@ CPP = (cash price - taxes and fees paid on the award) / points required x 100
 ```
 
 Compare the CPP to the client's value for that currency (see
-`reference/valuations.md`; the client's own numbers in `tina/points.md` win if set).
+`reference/valuations.md`; the client's own numbers in `tina/memory/points.md` win if set).
 
 - CPP well above the valuation: strong redemption, use points.
 - CPP around the valuation: a toss-up; let the other factors below decide.

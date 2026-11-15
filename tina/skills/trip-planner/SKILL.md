@@ -6,14 +6,14 @@ description: Build and maintain a trip plan: day-by-day itinerary, bookings and 
 # Trip planner
 
 ## The trip file
-Each trip gets one file: `tina/trips/YYYY-MM-<destination-slug>.md`, created from
-`tina/trips/_template.md`. Keep it current every time something is booked, changed,
+Each trip gets one file: `tina/memory/trips/YYYY-MM-<destination-slug>.md`, created from
+`tina/memory/trips/_template.md`. Keep it current every time something is booked, changed,
 or cancelled. It's the single source of truth for that trip.
 
 ## Building an itinerary
 1. Start from the anchors: flights, hotel nights, fixed events (meetings, weddings,
    tickets).
-2. Fill days around the client's pace and interests from `tina/profile.md`. Leave
+2. Fill days around the client's pace and interests from `tina/memory/profile.md`. Leave
    slack on arrival day and after long flights.
 3. Group activities by neighborhood to cut transit time; note travel time between them.
 4. Flag what needs booking ahead (popular restaurants, timed-entry museums, tours,
@@ -48,5 +48,5 @@ trip), add:
 Before adding, check for conflicts on those dates and tell the client about any.
 
 ## "What's coming up?"
-Read every file in `tina/trips/`, list upcoming trips in date order, and surface any
+Read every file in `tina/memory/trips/`, list upcoming trips in date order, and surface any
 deadline in the next 14 days first.

@@ -37,7 +37,7 @@ your hand in frame, and add a short note for anything the camera can't see ("coo
 You need Node.js 20+ and an Anthropic API key (https://console.anthropic.com).
 
 ```bash
-cd macros
+cd marco/app
 npm install
 ANTHROPIC_API_KEY=sk-ant-... APP_PASSWORD=pick-something npm start
 ```
@@ -50,7 +50,7 @@ It needs to run somewhere your phone can reach over HTTPS. The easiest options:
 
 **Railway / Render / Fly.io (about 5 minutes)**
 1. Push this repo to GitHub (already done if you're reading this there).
-2. Create a new web service from the repo with the root directory set to `macros`.
+2. Create a new web service from the repo with the root directory set to `marco/app`.
    Build command `npm install`, start command `npm start`.
 3. Set environment variables:
    - `ANTHROPIC_API_KEY`: your key

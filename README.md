@@ -4,8 +4,7 @@ Tina is a Claude Code agent who finds flights and hotels, decides cash vs. point
 transfers, and keeps track of your loyalty programs and trips.
 
 ## Using her
-Sessions here start as regular Claude, which hands travel questions to Tina and food
-questions to Marco (see `CLAUDE.md`). Say "ask Tina..." to be sure it goes to her. From
+Say her name ("Tina, ...") and the session operates as Tina directly (see `CLAUDE.md`). From
 the terminal you can also talk to her directly with `claude --agent tina`.
 
 The first time, she'll interview you to fill in your profile. Things to try:
@@ -17,14 +16,14 @@ The first time, she'll interview you to fill in your profile. Things to try:
 ## Layout
 | Path | What it is |
 |---|---|
-| `.claude/agents/tina.md` | Tina's persona, workflow, and hard rules |
-| `.claude/skills/points-strategy/` | Cash-vs-points math, transfer protocol, valuations, partners, sweet spots |
-| `.claude/skills/flight-search/` | How she searches and evaluates flights and award space |
-| `.claude/skills/hotel-search/` | How she searches and evaluates stays |
-| `.claude/skills/trip-planner/` | Itineraries, trip files, deadlines, calendar entries |
-| `tina/profile.md` | You: travelers, airports, preferences, status, cards |
-| `tina/points.md` | Your balances, expirations, certificates |
-| `tina/trips/` | One file per trip |
+| `tina/SKILL.md` | Tina's persona, workflow, and hard rules |
+| `tina/skills/points-strategy/` | Cash-vs-points math, transfer protocol, valuations, partners, sweet spots |
+| `tina/skills/flight-search/` | How she searches and evaluates flights and award space |
+| `tina/skills/hotel-search/` | How she searches and evaluates stays |
+| `tina/skills/trip-planner/` | Itineraries, trip files, deadlines, calendar entries |
+| `tina/memory/profile.md` | You: travelers, airports, preferences, status, cards |
+| `tina/memory/points.md` | Your balances, expirations, certificates |
+| `tina/memory/trips/` | One file per trip |
 
 Keep this repo private: `tina/` holds your travel details. Tina is told never to store
 passport numbers, card numbers, or passwords.
@@ -43,7 +42,7 @@ passport numbers, card numbers, or passwords.
 Marco owns **Macro Snap**, the photo-based macro logger, and coaches you on what you log.
 
 - **App:** https://claude.ai/artifact/JQagQcCB77r99wYQwXqVZt (a private Claude Artifact;
-  source in `macros/artifact/`, with a fallback Node web app in `macros/`)
+  source in `marco/app/artifact/`, with a fallback Node web app in `marco/app/`)
 - **Talk to him:** `claude --agent marco` from the terminal, or ask any session here to
   "use Marco".
 
@@ -55,10 +54,11 @@ Things to try:
 
 | Path | What it is |
 |---|---|
-| `.claude/agents/marco.md` | Marco's persona, check-in workflow, and hard rules |
-| `marco/profile.md` | Your stats, goals, eating pattern, plan, and adjustment rules |
-| `marco/checkins.md` | Dated reviews, weigh-ins, and plan changes |
-| `marco/app.md` | How the app works, its data model, how to ship changes, backlog |
+| `marco/SKILL.md` | Marco's persona, check-in workflow, and hard rules |
+| `marco/app/` | Macro Snap source (artifact in `artifact/`, fallback Node app) |
+| `marco/memory/profile.md` | Your stats, goals, eating pattern, plan, and adjustment rules |
+| `marco/memory/checkins.md` | Dated reviews, weigh-ins, and plan changes |
+| `marco/memory/app.md` | How the app works, its data model, how to ship changes, backlog |
 | `marco/tools/summarize.py` | Turns the downloaded log into daily totals and averages |
 
 Marco won't change your goals or touch logged meals without your OK, and he'll send you

@@ -9,7 +9,7 @@ description: Find and compare hotels and other stays for the client's needs, wei
 - Destination and **what they'll be doing there** (a meeting address, a beach, a
   neighborhood to explore, an airport early flight). Location decides most of it.
 - Dates, number of rooms, guests (and kids' ages; many rates and rooms depend on it).
-- Must-haves from `tina/profile.md` and this trip: bed type, gym, pool, quiet room,
+- Must-haves from `tina/memory/profile.md` and this trip: bed type, gym, pool, quiet room,
   walkability, parking, pet-friendly, accessibility, workspace.
 - Style: luxury, boutique, reliable chain, budget, apartment or rental.
 - Loyalty: which hotel programs and status the client has, and whether earning or

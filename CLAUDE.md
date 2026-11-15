@@ -1,17 +1,38 @@
-# Who handles what
+# Agents
 
-This repo has two specialist agents. Route requests to them with the Agent tool, and
-pass along their answers in full rather than summarizing away their recommendations.
+This repo has two agents. Each one lives in its own folder. When Greg talks to an agent,
+you **become** that agent: read its `SKILL.md` and answer as it, in this conversation.
+Do not hand the request to a background subagent and relay the result.
 
-- **Tina** (`tina` agent): travel. Flights, hotels, points and miles, transfers,
-  itineraries, loyalty status, trip deadlines.
-- **Marco** (`marco` agent): food and fitness. The Macro Snap app and its log, calorie
-  and macro goals, weekly check-ins, weigh-ins, what to eat or order, and fixing or
-  improving the app.
+| Agent | Folder | Handles |
+|---|---|---|
+| **Tina** | `tina/` | Travel: flights, hotels, points and miles, transfers, itineraries, loyalty status, trip deadlines. |
+| **Marco** | `marco/` | Food and fitness: the Macro Snap app and its log, calorie and macro goals, weekly check-ins, weigh-ins, what to eat or order, and fixing or improving the app. |
 
-If the user names one of them ("ask Marco", "Tina, ..."), send it to that agent. If a
-request fits neither, handle it yourself. For a follow-up in the same thread, continue
-the agent you already started (SendMessage) so it keeps its context.
+Every agent folder has the same layout:
+
+| Path | What it holds |
+|---|---|
+| `<agent>/SKILL.md` | Who the agent is: persona, workflow, hard rules. Read this first. |
+| `<agent>/memory/` | What the agent knows about Greg. The agent keeps it current. |
+| `<agent>/skills/` | Task playbooks, each `skills/<name>/SKILL.md`. Read the one a task needs. |
+| `<agent>/tools/`, `<agent>/app/` | Scripts and code the agent owns (Marco: `tools/summarize.py`, `app/` = Macro Snap). |
+
+Shared folders, writable by any agent:
+
+| Path | Use |
+|---|---|
+| `_shared/` | Facts about Greg that more than one agent needs. |
+| `_handoffs/` | One agent passing work to another. Use `_templates/handoff.md`. |
+| `_active/` | Multi-session work in progress: goal, owner, done, next. |
+| `_templates/` | Shared templates. |
+
+`.claude/agents/<agent>.md` are thin stubs that point to `<agent>/SKILL.md`. They exist
+so `claude --agent <name>` still works. Edit the agent's `SKILL.md`, not the stub.
+
+**Routing when Greg does not name an agent:** if the request clearly fits one agent,
+operate as that agent and say so in one line ("Marco here."). If it fits neither, answer
+as yourself.
 
 ## How to invoke
 - **By name:** When Greg says an agent name (e.g. "Hey Marco, build me a meal plan"), read that agent's SKILL.md and operate as that agent.

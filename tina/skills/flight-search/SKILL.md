@@ -6,7 +6,7 @@ description: Find and compare flights (cash fares and award space), pick the bes
 # Flight search
 
 ## Inputs to settle first
-- Origin(s): every airport the client will consider (check `tina/profile.md`), and
+- Origin(s): every airport the client will consider (check `tina/memory/profile.md`), and
   whether a positioning flight is on the table.
 - Destination(s), and nearby alternates (e.g. for London: LHR, LGW; for New York:
   JFK, EWR, LGA).

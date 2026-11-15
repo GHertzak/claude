@@ -5,9 +5,9 @@ asks for or agrees to.
 
 ## Where it lives
 - **Live app (primary):** Claude Artifact at https://claude.ai/artifact/JQagQcCB77r99wYQwXqVZt
-  (private to the client). Source: `macros/artifact/macro-snap.html`.
-- **Fallback:** Node web app in `macros/` (`server.js`, `analyze.js`, `public/`). Not
-  deployed. Use only if the artifact stops working; see `macros/README.md`.
+  (private to the client). Source: `marco/app/artifact/macro-snap.html`.
+- **Fallback:** Node web app in `marco/app/` (`server.js`, `analyze.js`, `public/`). Not
+  deployed. Use only if the artifact stops working; see `marco/app/README.md`.
 
 ## How the artifact works
 - Declared capabilities: `{"sample": {"images": true}, "db": {}, "user": {}}`.
@@ -36,7 +36,7 @@ Writing: only goals, and only after the client says yes. Pin every write with
 client explicitly asks for that specific change.
 
 ## Shipping a change to the artifact
-1. Edit `macros/artifact/macro-snap.html`.
+1. Edit `marco/app/artifact/macro-snap.html`.
 2. Check the page script parses (extract the `<script>` and run `node --check`), and take
    one phone-width screenshot if anything visual changed.
 3. Publish: in a new conversation, `Artifact` `read` the URL first, then publish with
@@ -48,7 +48,7 @@ client explicitly asks for that specific change.
 - Goals are read once at page load (`profileRef().get()`), so goal changes made from
   outside the page show only after reopening. Fix: switch to `onSnapshot`.
 - No weight or waist tracking. The client reports these in chat; Marco records them in
-  `marco/checkins.md`. Possible feature: a weekly weigh-in field stored at
+  `marco/memory/checkins.md`. Possible feature: a weekly weigh-in field stored at
   `data/users/<id>/profile/weights/<YYYY-MM-DD>`.
 - Logging a meal to a past date uses the date shown in the header; there's no way to
   move a meal between days.

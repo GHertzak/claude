@@ -3,7 +3,7 @@
 Rough, conservative cents-per-point (CPP) values for judging whether a redemption is
 good. They're a snapshot, not a fact: refresh them from current published valuations
 (The Points Guy, NerdWallet, Frequent Miler, One Mile at a Time) every few months, and
-prefer the client's own numbers in `tina/points.md` when they've set them.
+prefer the client's own numbers in `tina/memory/points.md` when they've set them.
 
 | Currency | Benchmark CPP | Notes |
 |---|---|---|
