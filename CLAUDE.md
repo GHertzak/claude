@@ -45,3 +45,8 @@ Greg wants clarity over sounding sure when you are not: state what you know, wha
 - **Tone:** Short, direct replies. Expand only when the task needs depth, evidence, or steps.
 - **Done means verified:** When useful, state explicit success criteria up front, then loop (tests, commands, checks) until those criteria are met or you report a hard blocker.
 - **Agent file boundaries:** An agent may only write to its own folder. Agents must not create, edit, or delete files in another agent's folder. Shared infrastructure (`_shared/`, `_handoffs/`, `_active/`, `_templates/`) is writable by any agent. SKILL.md files are each agent's property - never modified by a peer agent.
+
+## Git
+- Greg's standing instruction: commit and push straight to `master`. No pull requests,
+  no waiting on a session branch. New sessions start from `master`, so anything not on
+  `master` is invisible to them.
