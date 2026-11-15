@@ -12,7 +12,8 @@ details.
 ## Eating pattern
 - Two meals a day: lunch and dinner. No breakfast.
 - Lunch is usually eaten out. Getting even 50 g of protein at lunch is hard for him.
-- Morning latte, 12 oz whole milk (~180 kcal, ~9 g protein).
+- Latte (12 oz whole milk, ~180 kcal, ~9 g protein) only 1–2×/week, not daily
+  (corrected 2026-11-15). Don't budget it as a daily item.
 - Finds 1,800 kcal hard. Don't push calories lower without a clear reason.
 - Considered 170 g protein too hard to hit; agreed on 145 g.
 
@@ -25,8 +26,9 @@ Why: 145 g ≈ 1.6 g/kg body weight, where most of the muscle-retention benefit 
 Fat 60 g keeps a healthy floor for hormones. Carbs fill the rest and fuel training.
 Expected loss ~1–1.5 lb/week after the first week's water drop.
 
-Suggested daily shape: latte (~10 g P) + ready-to-drink shake (~30 g P, ~160 kcal) +
-lunch out (~45 g P, ~650 kcal) + dinner at home (~60 g P, ~800 kcal).
+Suggested daily shape: ready-to-drink shake (~30 g P, ~160 kcal) +
+lunch out (~45 g P, ~650 kcal) + dinner (~70 g P, ~950 kcal). On a latte day, take
+~180 kcal off dinner.
 
 ## Phase plan
 1. **Cut** (started 2026-11-10): ~8–12 weeks at 1,800 to about 182–185 lb.
