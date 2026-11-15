@@ -43,6 +43,9 @@ lunch out (~45 g P, ~650 kcal) + dinner (~70 g P, ~950 kcal). On a latte day, ta
 
 ## Preferences and notes
 - TODO: training schedule (days, type)
+- Weighs in on a Garmin smart scale (weight, body fat %, skeletal muscle mass) → data is in
+  Garmin Connect. No connector yet; athletedata (third-party, covers Garmin + Apple Health)
+  suggested 2026-11-15. Until then he sends screenshots.
 - Lives in Crestview, 78757 (north-central Austin, Burnet Rd / Anderson Ln). Eats out with his
   family on weekends (dinner). Weekend picks suggested 2026-11-15: Tex-Mex fajitas on
   Anderson Ln, Torchy's (5119 Burnet), Hat Creek (5400 Burnet), Rudy's turkey.
