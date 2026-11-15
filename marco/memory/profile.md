@@ -16,6 +16,9 @@ details.
   (corrected 2026-11-15). Don't budget it as a daily item.
 - Finds 1,800 kcal hard. Don't push calories lower without a clear reason.
 - Considered 170 g protein too hard to hit; agreed on 145 g.
+- Day-to-day focus is **protein and calories only** (said 2026-11-15). He doesn't care
+  about going over on fat or carbs. Coach to those two; the carb/fat goals are guides, not
+  targets to optimize meals around.
 
 ## Current plan (set 2026-11-10)
 | Calories | Protein | Carbs | Fat |
