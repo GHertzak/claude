@@ -44,6 +44,8 @@ lunch out (~45 g P, ~650 kcal) + dinner at home (~60 g P, ~800 kcal).
 - Lives in Crestview, 78757 (north-central Austin, Burnet Rd / Anderson Ln). Eats out with his
   family on weekends (dinner). Weekend picks suggested 2026-11-15: Tex-Mex fajitas on
   Anderson Ln, Torchy's (5119 Burnet), Hat Creek (5400 Burnet), Rudy's turkey.
+- Likes the P. Terry's grilled chicken sandwich (~410 kcal, ~27 g protein per third-party
+  data; not official). Also names Picnik (4801 Burnet) and Cabo Bob's as healthy options.
 - Go-to spots (from the log, Nov 10–14): Cabo Bob's, Velvet Taco, P. Terry's, Rudy's BBQ.
 - Shops at H-E-B (Austin-area chains). Staples already in his log: H-E-B 30g Protein
   shakes, H-E-B Cafeccino protein shake, Kodiak oatmeal packets, light string cheese.
