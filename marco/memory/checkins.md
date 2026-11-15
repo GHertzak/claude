@@ -16,8 +16,9 @@ Newest first. One entry per review: date, what the log showed, what the client r
 - Recommended (no target change, week 1): (1) set a drink-night limit and a pre-picked
   late snack, (2) sauces/queso on the side or skipped at lunch bowls, (3) start weigh-ins.
 - Weight (Garmin scale, Nov 9–15, read off a chart so ±0.2 lb): 11/9 ~194.3, 11/10 ~194.8,
-  11/12 ~191.8, 11/13 ~191.4. **Week avg 193.1 lb.** Down ~3 lb from the start; mostly the
-  expected week-1 water/glycogen drop. Not a rate to extrapolate. No weigh-ins 11/14–15.
+  11/12 ~191.8, 11/13 ~191.4, 11/14 191.1 (client-reported; didn't sync to Garmin).
+  **Week avg ~192.7 lb** (Garmin showed 193.1 without 11/14). Down ~3.5 lb from the start;
+  mostly the expected week-1 water/glycogen drop. Not a rate to extrapolate.
 - Scale body comp (BIA, baseline only): 22.2% body fat, 77.0 lb skeletal muscle mass, BMI
   26.1. Bioimpedance swings with hydration; use the trend, not the absolute number.
 - Still waiting on: lifts, hunger/energy. Waist due ~Nov 24.
