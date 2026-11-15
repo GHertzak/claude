@@ -10,7 +10,10 @@ details.
   down to 165 lb ("I would look sick").
 
 ## Eating pattern
-- Two meals a day: lunch and dinner. No breakfast.
+- Was two meals a day (lunch and dinner). Since 2026-11-11 the log shows a breakfast most
+  days: Kodiak Peak Oatmeal packet + H-E-B 30g Protein shake (~400 kcal, ~50 g protein).
+  As of 2026-11-15 he wants fast H-E-B breakfast and dinner options: no cooking, minimal
+  cleanup (microwave trays, grab-and-go).
 - Lunch is usually eaten out. Getting even 50 g of protein at lunch is hard for him.
 - Morning latte, 12 oz whole milk (~180 kcal, ~9 g protein).
 - Finds 1,800 kcal hard. Don't push calories lower without a clear reason.
@@ -41,5 +44,8 @@ lunch out (~45 g P, ~650 kcal) + dinner at home (~60 g P, ~800 kcal).
 
 ## Preferences and notes
 - TODO: training schedule (days, type)
-- TODO: go-to lunch spots
+- Go-to lunch/dinner spots (from the log): Cabo Bob's, Velvet Taco, P. Terry's (grilled
+  chicken, dry, double chicken), Rudy's BBQ. Shops at H-E-B.
+- Drinks: tequila shots (~97 kcal each) and the occasional beer show up most evenings in
+  the first week's log, ~300 kcal/day on average.
 - TODO: foods he dislikes or avoids
