@@ -58,6 +58,8 @@ lunch out (~45 g P, ~650 kcal) + dinner (~70 g P, ~950 kcal). On a latte day, ta
 - Go-to: P. Terry's grilled chicken sandwich with DOUBLE chicken (his hack). Single is
   ~410 kcal / ~27 g protein (third-party data, not official); double is roughly
   ~560 kcal / ~50 g (Marco's estimate). Also names Picnik (4801 Burnet) and Cabo Bob's as healthy options.
+  Picnik since Sept 2026 serves ONE rotating main plate a day (protein + starch + veg + salad +
+  sauce), no fixed menu and no published nutrition: estimate it, ask for extra protein, sauce on side.
 - Go-to spots (from the log, Nov 10–14): Cabo Bob's, Velvet Taco, P. Terry's, Rudy's BBQ.
 - Shops at H-E-B (Austin-area chains). Staples already in his log: H-E-B 30g Protein
   shakes, H-E-B Cafeccino protein shake, Kodiak oatmeal packets, light string cheese.
