@@ -66,4 +66,7 @@ lunch out (~45 g P, ~650 kcal) + dinner (~70 g P, ~950 kcal). On a latte day, ta
 - Frozen picks suggested 2026-11-15 for quick home dinners and late-night food: H-E-B
   grilled chicken strips / savory chicken fillets, Realgood chicken enchiladas, raw shrimp,
   turkey patties, steamable rice, cauliflower rice.
+- Frozen/prepared meals: used Megafit Meals (megafitmeals.com) before and liked them; asked
+  2026-11-13 for frozen meal options. Target per meal: ~400–550 kcal, 40 g+ protein. All 95
+  current Megafit labels are loaded in Macro Snap (2026-11-20); sauce cups are NOT in the meal label.
 - TODO: foods he dislikes or avoids

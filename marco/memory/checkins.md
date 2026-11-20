@@ -24,6 +24,10 @@ Newest first. One entry per review: date, what the log showed, what the client r
 - Client: 5 workouts this week (weights), lifts holding, energy good. Hunger manageable most days/nights ("not easy, but dieting never is").
   Waist due ~Nov 24. Next review ~Nov 22.
 
+## 2026-11-13: Notes (not a full check-in; recovered from an unmerged branch 2026-11-20)
+- Asked for frozen meal options (recommended Megafit first: ~400–500 kcal, 38–45 g P).
+- Asked for quick re-logging of repeat foods; built Quick add (see app.md).
+
 ## 2026-11-10: Start
 - Plan set: 1,800 kcal / 145 g protein / 170 g carbs / 60 g fat (goals updated in the app).
 - Starting weight 195 lb, ~30% body fat. Target 180–185 lb.
