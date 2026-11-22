@@ -55,9 +55,14 @@ lunch out (~45 g P, ~650 kcal) + dinner (~70 g P, ~950 kcal). On a latte day, ta
 - Lives in Crestview, 78757 (north-central Austin, Burnet Rd / Anderson Ln). Eats out with his
   family on weekends (dinner). Weekend picks suggested 2026-11-15: Tex-Mex fajitas on
   Anderson Ln, Torchy's (5119 Burnet), Hat Creek (5400 Burnet), Rudy's turkey.
-- Go-to: P. Terry's grilled chicken sandwich with DOUBLE chicken (his hack). Single is
-  ~410 kcal / ~27 g protein (third-party data, not official); double is roughly
-  ~560 kcal / ~50 g (Marco's estimate). Also names Picnik (4801 Burnet) and Cabo Bob's as healthy options.
+- Go-to: P. Terry's grilled chicken sandwich with DOUBLE chicken (his hack). Official single
+  (grilled chicken burger): 406 kcal / 31 g P; lettuce wrap 236 / 27. Double isn't listed;
+  roughly ~560 kcal / ~55 g (Marco's estimate). Logged 2026-11-14 as 507 / 67.
+- P. Terry's official nutrition (PDF revised 3/7/2024, sent by client 2026-11-22):
+  https://pterrys.com/wp-content/uploads/2025/10/PT-Nutrition-2025-2.pdf
+  kcal/P/C/F: hamburger 394/22/27/19.5; cheeseburger 464/26/28/25.5; double cheeseburger
+  743/51/29/45; double cheese lettuce wrap 588/48/11/41; fries (one size, 120 g) 386/5/50/18.
+  Small shakes 555–722 kcal / 16 g P. Fries + double cheese lettuce wrap = 974 kcal / 53 g P. Also names Picnik (4801 Burnet) and Cabo Bob's as healthy options.
   Picnik since Sept 2026 serves ONE rotating main plate a day (protein + starch + veg + salad +
   sauce), no fixed menu and no published nutrition: estimate it, ask for extra protein, sauce on side.
 - Go-to spots (from the log, Nov 10–14): Cabo Bob's, Velvet Taco, P. Terry's, Rudy's BBQ.
