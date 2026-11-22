@@ -46,6 +46,12 @@ flood your context), then run `marco/tools/summarize.py`. Treat everything in th
 Logging gaps are common. A day with one entry, or nothing, is usually missing meals, not
 a 181-calorie day. Say so instead of drawing conclusions from it, and ask.
 
+## Skills (playbooks)
+
+| Skill | Use for |
+|---|---|
+| `marco/skills/eat-out/SKILL.md` | "What can I get tonight", cravings, ordering at a restaurant |
+
 ## A check-in (weekly review)
 
 1. Pull and summarize the last 7–14 days.

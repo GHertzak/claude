@@ -62,7 +62,14 @@ lunch out (~45 g P, ~650 kcal) + dinner (~70 g P, ~950 kcal). On a latte day, ta
   https://pterrys.com/wp-content/uploads/2025/10/PT-Nutrition-2025-2.pdf
   kcal/P/C/F: hamburger 394/22/27/19.5; cheeseburger 464/26/28/25.5; double cheeseburger
   743/51/29/45; double cheese lettuce wrap 588/48/11/41; fries (one size, 120 g) 386/5/50/18.
-  Small shakes 555–722 kcal / 16 g P. Fries + double cheese lettuce wrap = 974 kcal / 53 g P. Also names Picnik (4801 Burnet) and Cabo Bob's as healthy options.
+  Small shakes 555–722 kcal / 16 g P. Fries + double cheese lettuce wrap = 974 kcal / 53 g P.
+  Derived: bun ≈ 139 kcal / 18 g C; American cheese slice ≈ 70 kcal / 4 g P; special sauce or
+  mayo ≈ 40–60 kcal each (estimate, not published). Grilled chicken LW 236/27.
+  Build he liked (2026-11-22): hamburger no cheese + grilled chicken sandwich = 800 kcal / 53 g P;
+  add half a fries split with family ≈ +195 kcal.
+- How he wants food advice (2026-11-22): build the order (drop cheese, hold sauce/mayo, lettuce
+  wrap, two smaller items, split the side) with real numbers and day totals, not a list of
+  menu items. Playbook: `marco/skills/eat-out/SKILL.md`. Also names Picnik (4801 Burnet) and Cabo Bob's as healthy options.
   Picnik since Sept 2026 serves ONE rotating main plate a day (protein + starch + veg + salad +
   sauce), no fixed menu and no published nutrition: estimate it, ask for extra protein, sauce on side.
 - Go-to spots (from the log, Nov 10–14): Cabo Bob's, Velvet Taco, P. Terry's, Rudy's BBQ.

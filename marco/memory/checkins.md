@@ -3,6 +3,16 @@
 Newest first. One entry per review: date, what the log showed, what the client reported
 (weight average, waist, how lifts and hunger are going), and any change made.
 
+## 2026-11-22: Notes (not a check-in; dinner advice)
+- Log Nov 16–22 (7 days): avg 1,579 kcal / 121 g P. Protein is the gap. Nov 21 has 2 entries
+  (likely incomplete). Today 830 kcal / 95 g P before dinner.
+- Burger craving: client sent P. Terry's official nutrition PDF (saved to profile). Marco's first
+  guess at the double cheeseburger (600–650 / 40) was low; official is 743 / 51.
+- Client asked for sharper advice: build orders (drop cheese/sauce, lettuce wrap, combos).
+  Recommended hamburger no cheese + grilled chicken sandwich (800 / 53), split fries.
+  New playbook: `marco/skills/eat-out/SKILL.md`.
+- Weekly review still due (Nov 22); waist due ~Nov 24.
+
 ## 2026-11-15: Week 1 review (log Nov 10–15)
 - Log: 6 days logged, Nov 15 possibly incomplete. Avg 2,047 kcal / 142 g P / 156 g C /
   69 g F vs 1,800 / 145 / 170 / 60. Protein ≥ ~145 g on 4/6 days. Calories on target 3/6.
