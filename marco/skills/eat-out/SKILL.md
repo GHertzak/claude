@@ -9,6 +9,7 @@ Greg coaches to **protein and calories only**. Carbs and fat are guides. Lead wi
 is left today, then give orders he can actually say at the counter.
 
 ## 1. Find what is left today
+- "Today" = `TZ=America/Chicago date +%F`, not the container date (UTC runs ahead in the evening).
 - Pull today's day doc (and goals) per "Reading the client's data" in
   `marco/memory/app.md`. Remaining = goals − logged.
 - Check if the log looks complete. Missing lunch = ask, do not plan on a phantom budget.

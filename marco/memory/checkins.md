@@ -11,10 +11,12 @@ Newest first. One entry per review: date, what the log showed, what the client r
 - Client asked for sharper advice: build orders (drop cheese/sauce, lettuce wrap, combos).
   Recommended hamburger no cheese + grilled chicken sandwich (800 / 53), split fries.
   New playbook: `marco/skills/eat-out/SKILL.md`.
-- Client ordered the build on **Nov 23** (not Nov 22): P. Terry's hamburger (no cheese) + grilled
-  chicken lettuce wrap + half fries = 823 kcal / 51.5 g P (official numbers; half fries = 193).
-  Marco logged it to 2026-11-23 at his request (one entry, no photo). Nov 22: client confirmed
-  no dinner, so the log is complete at 830 kcal / 95 g P (a real low day, not a gap).
+- Dinner: P. Terry's hamburger (no cheese) + grilled chicken lettuce wrap + half fries = 823 kcal /
+  51.5 g P (official numbers; half fries = 193). Logged by Marco at the client's request.
+  **Mistake:** Marco first wrote it to 2026-11-23 using the container's UTC date; in Austin it was
+  still Nov 22. Moved to 2026-11-22 (deleted the 11-23 doc, which held only that entry).
+  Nov 22 total ≈ 1,653 kcal / 146.5 g P: both goals hit.
+- Nov 21: client confirmed no dinner, so 1,182 kcal / 78 g P is complete (a real low day).
 - Weekly review still due (Nov 22); waist due ~Nov 24.
 
 ## 2026-11-15: Week 1 review (log Nov 10–15)

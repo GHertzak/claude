@@ -61,6 +61,10 @@ asks for or agrees to.
   log is the test. Check it.
 
 ## Reading the client's data
+**Dates are Greg's local date (Austin, America/Chicago), not the container's UTC date.**
+After ~6 pm Central the container already says tomorrow. Work out "today" with
+`TZ=America/Chicago date +%F` before reading or writing a day doc. (Mistake on 2026-11-22:
+logged a dinner to the next day.)
 Use `ArtifactData` with the URL above. `me` resolves to the client's id.
 1. `get` collection `data/users/me`, doc `profile` (goals).
 2. `list` collection `data/users/me/profile/days` with `out_dir` set to the scratchpad
