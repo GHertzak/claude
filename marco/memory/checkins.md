@@ -11,6 +11,9 @@ Newest first. One entry per review: date, what the log showed, what the client r
 - Client asked for sharper advice: build orders (drop cheese/sauce, lettuce wrap, combos).
   Recommended hamburger no cheese + grilled chicken sandwich (800 / 53), split fries.
   New playbook: `marco/skills/eat-out/SKILL.md`.
+- Ate: P. Terry's hamburger (no cheese) + grilled chicken lettuce wrap + half fries = 823 kcal /
+  51.5 g P (official numbers; half fries = 193). Day ≈ 1,653 kcal / 146.5 g P: both goals hit.
+  Not in the app as of Nov 23 (offered to log it).
 - Weekly review still due (Nov 22); waist due ~Nov 24.
 
 ## 2026-11-15: Week 1 review (log Nov 10–15)
