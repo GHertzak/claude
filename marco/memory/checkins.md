@@ -13,8 +13,8 @@ Newest first. One entry per review: date, what the log showed, what the client r
   New playbook: `marco/skills/eat-out/SKILL.md`.
 - Client ordered the build on **Nov 23** (not Nov 22): P. Terry's hamburger (no cheese) + grilled
   chicken lettuce wrap + half fries = 823 kcal / 51.5 g P (official numbers; half fries = 193).
-  Marco logged it to 2026-11-23 at his request (one entry, no photo). Nov 22 dinner: unknown,
-  not logged (day shows 830 kcal); ask at the weekly review.
+  Marco logged it to 2026-11-23 at his request (one entry, no photo). Nov 22: client confirmed
+  no dinner, so the log is complete at 830 kcal / 95 g P (a real low day, not a gap).
 - Weekly review still due (Nov 22); waist due ~Nov 24.
 
 ## 2026-11-15: Week 1 review (log Nov 10–15)
